@@ -79,7 +79,7 @@ FLAGS := -std=c++17 -g3 -Wall -Wextra -Wno-pmf-conversions -O2
 
 # Include path
 # Must be use with -I
-INC_FLAG := -I $(INC_FOLDER)
+INC_FLAG := -I $(INC_FOLDER) -I lib/
 
 #####
 ##### LIBRARY
@@ -177,8 +177,8 @@ export LD_LIBRARY_PATH += $(_LIB_PATH_LD)
 
 .PHONY: all executable test
 .PHONY: clean
-.PHONY: re re-test
-.PHONY: re-run run run-test re-run-test
+.PHONY: re
+.PHONY: re-run run
 
 .DEFAULT_GOAL := all
 
@@ -191,9 +191,6 @@ executable:
 	@$(call _header,BUILDING EXECUTABLE...)
 	@make $(TARGET_EXE)
 
-test:
-	@make PROJECT_NAME=parser_test SRC_MAIN=test.cpp
-
 clean:
 	@$(call _header,REMOVING $(BUILD_FOLDER))
 	@$(call _remove-folder,$(BUILD_FOLDER))
@@ -205,24 +202,15 @@ re:
 	@make clean
 	@make
 
-re-test:
-	@make re PROJECT_NAME=parser_test SRC_MAIN=test.cpp
-
 run:
 	@make executable
 	@echo
 	@$(call _special,EXECUTING $(TARGET_EXE)...)
 	@$(TARGET_EXE) $(args); ERR=$$?; $(call _special,PROGRAM HALT WITH CODE $$ERR); exit $$ERR;
 
-run-test:
-	@make run PROJECT_NAME=parser_test SRC_MAIN=test.cpp
-
 re-run:
 	@make re
 	@make run
-
-re-run-test:
-	@make re-run PROJECT_NAME=parser_test SRC_MAIN=test.cpp
 
 valgrind:
 	@make executable
