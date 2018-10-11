@@ -1,13 +1,12 @@
 #include <iostream>
 
-#include <ws/test_header.hpp>
 #include <module/module.h>
 
-int main() {
+#include <ws/opti/instruction/Operation.hpp>
+#include <ws/opti/instruction/Instruction.hpp>
+#include <ws/opti/instruction/Argument.hpp>
 
-    ws::receive(32, [&] (const std::string& buffer, int, bool) {
-        ws::pipe(buffer);
-    });
+int main() {
 
     return 0;
 }
