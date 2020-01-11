@@ -62,7 +62,7 @@ EXT_INC_FILE = .hpp
 # EX: $(1:%$(EXT_SRC_FILE)=%$(EXT_INC_FILE)) 
 # will take the file "folder/sub_folder_file.cpp"
 # and transform it into "folder/sub_folder_file.hpp"
-header-of = $(1:%$(EXT_SRC_FILE)=car_sim/%$(EXT_INC_FILE))
+header-of = $(1:%$(EXT_SRC_FILE)=ws/%$(EXT_INC_FILE))
 
 # Relative to $(SRC_FOLDER)
 SRC_EXCLUDE_FILE := 
@@ -184,12 +184,12 @@ export LD_LIBRARY_PATH += $(_LIB_PATH_LD)
 
 all:
 ifneq ($(findstring $(TARGET_EXE),$(TARGET_ALL)),)
-	@make executable
+	@$(MAKE) executable
 endif
 
 executable: 
 	@$(call _header,BUILDING EXECUTABLE...)
-	@make $(TARGET_EXE)
+	@$(MAKE) $(TARGET_EXE)
 
 clean:
 	@$(call _header,REMOVING $(BUILD_FOLDER))
@@ -199,28 +199,28 @@ where-executable:
 	@echo $(TARGET_EXE)
 
 re:
-	@make clean
-	@make
+	@$(MAKE) clean
+	@$(MAKE)
 
 run:
-	@make executable
+	@$(MAKE) executable
 	@echo
 	@$(call _special,EXECUTING $(TARGET_EXE)...)
 	@$(TARGET_EXE) $(args); ERR=$$?; $(call _special,PROGRAM HALT WITH CODE $$ERR); exit $$ERR;
 
 re-run:
-	@make re
-	@make run
+	@$(MAKE) re
+	@$(MAKE) run
 
 valgrind:
-	@make executable
+	@$(MAKE) executable
 	@echo
 	@$(call _special,EXECUTING $(TARGET_EXE) WITH VALGRIND...)
 	@valgrind $(TARGET_EXE) $(args); ERR=$$?; $(call _special,PROGRAM HALT WITH CODE $$ERR); exit $$ERR;
 
 re-valgrind:
-	@make re-executable
-	@make valgrind
+	@$(MAKE) re-executable
+	@$(MAKE) valgrind
 
 $(_BUILD_DIR):
 	@mkdir -p $(_BUILD_DIR)
